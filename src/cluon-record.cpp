@@ -58,21 +58,23 @@ int32_t main(int32_t argc, char **argv) {
         };
 
         const bool REMOTE{commandlineArguments.count("remote") != 0};
+        const bool APPEND{commandlineArguments.count("append") != 0};
         const std::string RECSUFFIX{commandlineArguments["recsuffix"]};
         const std::string REC{(commandlineArguments["rec"].size() != 0) ? commandlineArguments["rec"] : ""};
         const std::string NAME_RECFILE{(commandlineArguments["rec"].size() != 0) ? commandlineArguments["rec"] + RECSUFFIX : (getYYYYMMDD_HHMMSS() + RECSUFFIX + ".rec")};
 
         std::mutex recFileMutex;
+        const auto recFileOpenMode = std::ios::out | std::ios::binary | (APPEND ? std::ios::app : std::ios::trunc);
         std::shared_ptr<std::fstream> recFile{nullptr};
         if (!REMOTE) {
-            recFile.reset(new std::fstream(NAME_RECFILE.c_str(), std::ios::out|std::ios::binary|std::ios::trunc));
+            recFile.reset(new std::fstream(NAME_RECFILE.c_str(), recFileOpenMode));
             std::clog << argv[0] << ": Created " << NAME_RECFILE << "." << std::endl;
         }
 
         // Interface to a running OpenDaVINCI session (ignoring any incoming Envelopes).
         std::string nameOfRecFile;
         cluon::OD4Session od4Session(static_cast<uint16_t>(std::stoi(commandlineArguments["cid"])),
-            [REMOTE, argv, REC, RECSUFFIX, getYYYYMMDD_HHMMSS, &recFileMutex, &recFile, &nameOfRecFile](cluon::data::Envelope &&envelope) noexcept {
+            [REMOTE, argv, REC, RECSUFFIX, getYYYYMMDD_HHMMSS, &recFileMutex, &recFileOpenMode, &recFile, &nameOfRecFile](cluon::data::Envelope &&envelope) noexcept {
             std::lock_guard<std::mutex> lck(recFileMutex);
             if ((cluon::data::RecorderCommand::ID() == envelope.dataType()) && REMOTE) {
                 cluon::data::RecorderCommand rc = cluon::extractMessage<cluon::data::RecorderCommand>(std::move(envelope));
@@ -84,7 +86,7 @@ int32_t main(int32_t argc, char **argv) {
                         std::clog << argv[0] << ": Closed " << nameOfRecFile << "." << std::endl;
                     }
                     nameOfRecFile = (REC.size() != 0) ? REC + RECSUFFIX : (getYYYYMMDD_HHMMSS() + RECSUFFIX + ".rec");
-                    recFile.reset(new std::fstream(nameOfRecFile.c_str(), std::ios::out|std::ios::binary|std::ios::trunc));
+                    recFile.reset(new std::fstream(nameOfRecFile.c_str(), recFileOpenMode));
                     std::clog << argv[0] << ": Created " << nameOfRecFile << "." << std::endl;
                 }
                 else if (2 == rc.command()) {
