@@ -30,7 +30,7 @@ section to your `docker-compose.yml` to record Envelopes from CID `111`:
 version: '2' # Must be present exactly once at the beginning of the docker-compose.yml file
 services:    # Must be present exactly once at the beginning of the docker-compose.yml file
     relay-envelopes:
-        image: chrberger/cluon-record-multi:v0.0.1
+        image: chrberger/cluon-record:v0.0.2
         restart: always
         network_mode: "host"
         volumes:
@@ -41,7 +41,7 @@ services:    # Must be present exactly once at the beginning of the docker-compo
 
 Command for commandline to display the resulting image after operations:
 ```
-docker run --rm -ti --init --net=host -v $HOME/recordings:/recordings -w /recordings chrberger/cluon-record-multi:v0.0.1 --cid=111
+docker run --rm -ti --init --net=host -v $HOME/recordings:/recordings -w /recordings chrberger/cluon-record:v0.0.2 --cid=111
 ```
 
 The parameters to the application are:

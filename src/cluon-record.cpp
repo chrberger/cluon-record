@@ -37,8 +37,9 @@ int32_t main(int32_t argc, char **argv) {
         auto getYYYYMMDD_HHMMSS = [](){
             cluon::data::TimeStamp now = cluon::time::now();
 
-            const long int _seconds = now.seconds();
-            struct tm *tm = localtime(&_seconds);
+            long int _seconds = now.seconds();
+            const time_t __seconds = static_cast<time_t>(_seconds);
+            struct tm *tm = localtime(&__seconds);
 
             uint32_t year = (1900 + tm->tm_year);
             uint32_t month = (1 + tm->tm_mon);

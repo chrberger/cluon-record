@@ -1,4 +1,4 @@
-# Copyright (C) 2019  Christian Berger
+# Copyright (C) 2021  Christian Berger
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ project(cluon-record)
 
 ################################################################################
 # Defining the relevant version of libcluon.
-set(CLUON_COMPLETE cluon-complete-v0.0.121.hpp)
+set(CLUON_COMPLETE cluon-complete-v0.0.140.hpp)
 
 ################################################################################
 # Set the search path for .cmake files.
