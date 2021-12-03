@@ -4,7 +4,7 @@ This repository provides source code for a microservice to record Envelopes
 from a running OD4Session.
 
 [![License: GPLv3](https://img.shields.io/badge/license-GPL--3-blue.svg
-)](https://www.gnu.org/licenses/gpl-3.0.txt)
+)](https://www.gnu.org/licenses/gpl-3.0.txt) ![build](https://github.com/chrberger/cluon-record/actions/workflows/build-docker-image.yml/badge.svg) ![release](https://github.com/chrberger/cluon-record/actions/workflows/release.yml/badge.svg)
 
 
 ## Table of Contents
