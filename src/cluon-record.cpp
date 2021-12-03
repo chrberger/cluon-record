@@ -31,6 +31,7 @@ int32_t main(int32_t argc, char **argv) {
         std::cerr << "         --rec:       name of the recording file; default: YYYY-MM-DD_HHMMSS.rec" << std::endl;
         std::cerr << "         --recsuffix: additional suffix to add to the .rec file" << std::endl;
         std::cerr << "         --remote:    listen for cluon.data.RecorderCommand to start/stop recording" << std::endl;
+        std::cerr << "         --append:    append to existing files instead of overwriting" << std::endl;
         std::cerr << "Example: " << argv[0] << " --cid=111 --recsuffix=-myfile" << std::endl;
         retCode = 1;
     } else {
