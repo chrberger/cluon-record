@@ -1,4 +1,4 @@
-# Copyright (C) 2019  Christian Berger
+# Copyright (C) 2021  Christian Berger
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,17 +14,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Part to build cluon-record.
-FROM pipill/armhf-alpine:edge as builder
+FROM alpine:3.15 as builder
 MAINTAINER Christian Berger "christian.berger@gu.se"
-
-RUN [ "cross-build-start" ]
-
-RUN echo http://dl-4.alpinelinux.org/alpine/v3.8/main > /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.8/community >> /etc/apk/repositories && \
-    apk update && \
+RUN apk update && \
     apk --no-cache add \
         cmake \
         g++ \
+        linux-headers \
         make
 ADD . /opt/sources
 WORKDIR /opt/sources
@@ -33,15 +29,11 @@ RUN mkdir build && \
     cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/tmp .. && \
     make && make install
 
-RUN [ "cross-build-end" ]
-
-
 # Part to deploy cluon-record.
-FROM pipill/armhf-alpine:edge
+FROM alpine:3.15
 MAINTAINER Christian Berger "christian.berger@gu.se"
 
 WORKDIR /usr/bin
 COPY --from=builder /tmp/bin/cluon-record .
-ENV NO_AT_BRIDGE=1
 ENTRYPOINT ["/usr/bin/cluon-record"]
 
