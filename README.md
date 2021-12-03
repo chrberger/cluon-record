@@ -49,6 +49,7 @@ The parameters to the application are:
 * `--rec`: name of the recording file; default: YYYY-MM-DD_HHMMSS.rec
 * `--recsuffix`: additional suffix to add to the .rec file
 * `--remote`: listen for cluon.data.RecorderCommand to start/stop recording
+* `--append`: in case of an existing .rec file, append instead of overwrite content
 
 ## Build from sources on the example of Ubuntu 16.04 LTS
 To build this software, you need cmake, C++14 or newer, libyuv, libvpx, and make.
