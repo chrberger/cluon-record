@@ -65,4 +65,3 @@ make && make test && make install
 ## License
 
 * This project is released under the terms of the GNU GPLv3 License
-
